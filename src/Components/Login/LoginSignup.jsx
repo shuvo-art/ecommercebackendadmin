@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useContext } from "react";
 import "./LoginSignup.css"
+import { AdminContext } from "../../Context/AdminContext"
 
 const LoginSignup = () => {
 
+ // Get the isVerified value from the AdminContext
+    const { updateIsVerified } = useContext(AdminContext);
     const [state, setState] = React.useState("Login");
     const [formData, setFormData] = React.useState({
         username: "", 
@@ -30,9 +33,10 @@ const LoginSignup = () => {
         }).then((response) => response.json()).then((data) => responseData = data);
 
         if (responseData.success) {
+            updateIsVerified(true); // Set the isVerified value to true
             console.log("User Registered Successfully");
             localStorage.setItem("auth-token", responseData.token);
-            window.location.replace("/");
+            window.location.replace("/addproduct");
         }
         else {
             alert(responseData.errors)
@@ -52,6 +56,7 @@ const LoginSignup = () => {
         }).then((response) => response.json()).then((data) => responseData = data);
 
         if (responseData.success) {
+            updateIsVerified(true); // Set the isVerified value to true
             console.log("User Registered Successfully");
             localStorage.setItem("auth-token", responseData.token);
             window.location.replace("/");
